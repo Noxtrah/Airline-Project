@@ -18,12 +18,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 // Database configuration
 const dbConfig = {
-  user: 'AirlineAppLoginName',
-  password: 'AirlineAppPassword',
-  server: 'DESKTOP-S3KH1J1',
+  user: 'Noxtra', //AirlineAppLogin
+  password: 'AirlineAppPassword3', //AirlineAppPassword
+  server: 'airline-app.database.windows.net',//'DESKTOP-S3KH1J1',
   database: 'AirlineAppDB',
   options: {
-    encrypt: false, // For Azure SQL Database
+    encrypt: true, // For Azure SQL Database
   },
 };
 
@@ -31,7 +31,8 @@ const dbConfig = {
 const pool = new sql.ConnectionPool(dbConfig);
 const poolConnect = pool.connect();
 
-poolConnect.then(() => console.log('Connected to the database')).catch(err => console.error('Database connection failed:', err));
+poolConnect.then(() => {
+  console.log('Connected to the database');
 
 
 // Protected route
@@ -118,7 +119,7 @@ app.post('/api/v1/buy-ticket', async (req, res) => {
 
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}).catch(err => console.error('Database connection failed:', err));
