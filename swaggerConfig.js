@@ -55,6 +55,15 @@ specs.paths['/api/v1/query-ticket'] = {
            type: 'integer',
          }
       },
+      {
+        name: 'page',
+        in: 'query',
+          description:  'Page Of Flights List',
+         required: false,
+         schema:{
+           type: 'integer',
+         }
+      },
       // Include other parameters as needed
     ],
     responses: {
@@ -65,13 +74,9 @@ specs.paths['/api/v1/query-ticket'] = {
             example: [
               {
                 date: '2023-11-15',
-                flightNo: 'FL123',
-                price: 200,
-              },
-              {
-                date: '2023-11-16',
-                flightNo: 'FL124',
-                price: 250,
+                from: 'CityA',
+                to: 'CityB',
+                numberOfPeople: '1',
               },
             ],
           },
@@ -103,6 +108,7 @@ specs.paths['/api/v1/buy-ticket'] = {
               passengerName: {
                 type: 'string',
               },
+              // Include other properties as needed
             },
             required: ['date', 'from', 'to', 'passengerName'],
           },
@@ -115,11 +121,13 @@ specs.paths['/api/v1/buy-ticket'] = {
         content: {
           'application/json': {
             example: {
+              status: 'success',
               message: 'Ticket purchased successfully!',
               flight: {
                 date: '2023-11-15',
-                flightNo: 'FL123',
-                price: 200,
+                from: 'CityA',
+                to: 'CityB',
+                passengerFullName: 'Hasan Su',
               },
             },
           },
@@ -130,6 +138,7 @@ specs.paths['/api/v1/buy-ticket'] = {
         content: {
           'application/json': {
             example: {
+              status: 'error',
               message: 'No available flights for the selected parameters.',
             },
           },
@@ -140,6 +149,7 @@ specs.paths['/api/v1/buy-ticket'] = {
         content: {
           'application/json': {
             example: {
+              status: 'error',
               message: 'Not enough available seats for the selected flight.',
             },
           },
@@ -147,12 +157,6 @@ specs.paths['/api/v1/buy-ticket'] = {
       },
       // Include other response codes and examples as needed
     },
-  },
-};
-
-specs.paths['/api/v1/protected'] = {
-  get: {
-    summary: 'Protected route (v1)',
   },
 };
 
@@ -169,12 +173,118 @@ specs.paths['/api/v1/login'] = {
               username: {
                 type: 'string',
               },
-              // Include other properties as needed
+              password: {
+                type: 'string',
+              },
             },
-            required: ['username'],
+            required: ['username', 'password'],
           },
         },
       },
+    },
+    responses: {
+      '200': {
+        description: 'Successful login',
+        content: {
+          'application/json': {
+            example: {
+              status: 'success',
+              message: 'Login successful',
+              token: 'YOUR_JWT_TOKEN',
+              login: {
+                username: 'HasanSu',
+                password: 'HasanSu',
+              },
+            },
+          },
+        },
+      },
+      '401': {
+        description: 'Invalid credentials',
+        content: {
+          'application/json': {
+            example: {
+              status: 'error',
+              message: 'Invalid credentials',
+            },
+          },
+        },
+      },
+      '500': {
+        description: 'Internal server error',
+        content: {
+          'application/json': {
+            example: {
+              status: 'error',
+              message: 'Internal server error',
+            },
+          },
+        },
+      },
+      // Include other response codes and examples as needed
+    },
+  },
+};
+
+
+specs.paths['/api/v1/create-client'] = {
+  post: {
+    summary: 'Create a new user (v1)',
+    requestBody: {
+      required: true,
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              username: {
+                type: 'string',
+              },
+              password: {
+                type: 'string',
+              },
+            },
+            required: ['username', 'password'],
+          },
+        },
+      },
+    },
+    responses: {
+      '200': {
+        description: 'User created successfully.',
+        content: {
+          'application/json': {
+            example: {
+              message: 'User created successfully.',
+              create_client: {
+                username: 'HasanSu',
+                password: 'HasanSu',
+              },
+            },
+          },
+        },
+      },
+      '400': {
+        description: 'Username already exists.',
+        content: {
+          'application/json': {
+            example: {
+              message: 'Username already exists.',
+            },
+          },
+        },
+      },
+      '500': {
+        description: 'Internal server error.',
+        content: {
+          'application/json': {
+            example: {
+              message: 'Internal server error.',
+            },
+          },
+        },
+      },
+      // Include other response codes and examples as needed
     },
   },
 };
