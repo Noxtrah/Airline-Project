@@ -89,6 +89,11 @@ specs.paths['/api/v1/query-ticket'] = {
 specs.paths['/api/v1/buy-ticket'] = {
   post: {
     summary: 'Purchase a ticket for a flight (v1)',
+    security: [
+      {
+        BearerAuth: [], // Reference to the security definition
+      },
+    ],
     requestBody: {
       required: true,
       content: {
@@ -157,6 +162,17 @@ specs.paths['/api/v1/buy-ticket'] = {
       },
       // Include other response codes and examples as needed
     },
+  },
+};
+
+// ...
+
+// Add a security definition for JWT Bearer token
+specs.components.securitySchemes = {
+  BearerAuth: {
+    type: 'http',
+    scheme: 'bearer',
+    bearerFormat: 'JWT',
   },
 };
 

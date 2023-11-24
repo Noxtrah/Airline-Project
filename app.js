@@ -52,6 +52,8 @@ app.post('/api/v1/login', async (req, res) => {
     // If credentials are valid, generate a JWT
     const token = jwt.sign({ username: req.body.username }, secretKey, { expiresIn: '1h' });
 
+    console.log('Generated Token:', token);
+
     // Send the token back to the client
     res.json({ token });
   } else {
@@ -177,11 +179,22 @@ app.post('/api/v1/buy-ticket', authenticateJWT, async (req, res) => {
   try {
     const { date, from, to, passengerName } = req.body;
 
+    // Convert the date to the expected SQL Server format (assuming 'YYYY-MM-DD')
+    const parsedDate = new Date(date);
+
+    // Check if the parsed date is valid
+    if (isNaN(parsedDate)) {
+      return res.status(400).json({ message: 'Invalid date format' });
+    }
+
+    // Convert the date to the expected SQL Server format (YYYY-MM-DD)
+    const formattedDate = parsedDate.toISOString().split('T')[0];
+
     // Find the appropriate flight
     const result = await pool
       .request()
       .query(
-        `SELECT TOP 1 FlightID FROM Flights_Table WHERE Date = '${date}' AND AvailableSeats > 0 ORDER BY Date`
+        `SELECT TOP 1 FlightID FROM Flights_Table WHERE Date = '${formattedDate}' AND AvailableSeats > 0 ORDER BY Date`
       );
 
     if (!result.recordset || result.recordset.length === 0) {
@@ -217,6 +230,7 @@ app.post('/api/v1/buy-ticket', authenticateJWT, async (req, res) => {
       message: 'Ticket purchased successfully!',
       result: ticketResult.recordset,
     });
+    console.log('Authenticated User:', req.user);
   } catch (err) {
     console.error('Error purchasing ticket:', err);
     res.status(500).json({ message: 'Internal server error' });
