@@ -9,7 +9,7 @@ const options = {
       description: 'API for ticketing transactions in an airline company.',
     },
   },
-  apis: ['app.js'], // Specify the file where your routes are defined
+  apis: ['app.js'], // Specify the file where routes are defined
 };
 
 const specs = swaggerJsdoc(options);
@@ -64,7 +64,6 @@ specs.paths['/api/v1/query-ticket'] = {
            type: 'integer',
          }
       },
-      // Include other parameters as needed
     ],
     responses: {
       '200': {
@@ -165,7 +164,6 @@ specs.paths['/api/v1/buy-ticket'] = {
   },
 };
 
-// ...
 
 // Add a security definition for JWT Bearer token
 specs.components.securitySchemes = {
@@ -237,7 +235,6 @@ specs.paths['/api/v1/login'] = {
           },
         },
       },
-      // Include other response codes and examples as needed
     },
   },
 };
@@ -300,7 +297,6 @@ specs.paths['/api/v1/create-client'] = {
           },
         },
       },
-      // Include other response codes and examples as needed
     },
   },
 };

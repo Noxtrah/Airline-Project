@@ -34,18 +34,14 @@ poolConnect.then(() => {
   console.log('Connected to the database');
 
 
-// Protected route
-app.get('/api/v1/protected', authenticateJWT, (req, res) => {
-  res.json({ message: 'This is a protected route', user: req.user });
-});
 
-// Define your routes here
 
-// Your login route
+
+// Login route
 app.post('/api/v1/login', async (req, res) => {
   const { username, password } = req.body;
 
-  // Example: Replace this with your actual authentication logic
+  // Authentication logic
   const credentialsResult = await isValidCredentials(username, password);
 
   if (credentialsResult.isValid) {

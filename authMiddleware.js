@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-// Replace 'your_generated_secret_key' with your actual secret key
-const secretKey = 'your_generated_secret_key';
+const secretKey = 'generated_secret_key';
 
 // Middleware to check JWT and authenticate requests
 function authenticateJWT(req, res, next) {
