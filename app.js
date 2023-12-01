@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
@@ -17,9 +16,9 @@ app.use(bodyParser.json());
 
 // Database configuration
 const dbConfig = {
-  user: 'Noxtra', //AirlineAppLogin
-  password: 'AirlineAppPassword3', //AirlineAppPassword
-  server: 'airline-app.database.windows.net', //'DESKTOP-S3KH1J1',
+  user: 'Noxtra',
+  password: 'AirlineAppPassword3',
+  server: 'airline-app.database.windows.net',
   database: 'AirlineAppDB',
   options: {
     encrypt: true, // For Azure SQL Database
